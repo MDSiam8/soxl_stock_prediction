@@ -36,7 +36,7 @@
         margin-bottom: 1.5vh;
     }
 
-    #disclaimer {
+    .disclaimer {
         color: rgb(208, 191, 255);
         margin-top: -2vh;
         font-size: 1.3vh;
@@ -175,11 +175,25 @@
             display: none;
         }
     }
+    #hidden{
+        color: rgb(153, 153, 153);
+        /* margin-left: 15px; */
+    }
+    #hidden > .main > p {
+        color: rgb(182, 182, 182);
+        margin-left: 15px;
+    }
+    .pred_titles{
+        margin-top: 5px;
+        margin-left: 15px;
+        font-weight: 400;
+    }
 </style>
 
 <body>
+    <div style="position: relative; min-height: calc(100vh - 50px);">
     <h1 class="title">SOXL Stock Prediction</h1>
-    <p id="disclaimer">Disclaimer: None of the contents of this site are investment advice. Any risk you take is solely
+    <p class="disclaimer">Disclaimer: None of the contents of this site are investment advice. Any risk you take is solely
         on your own accord. I am not liable for your decisions. And remember, machine learning is not magic; it is not
         always right!</p>
 
@@ -194,7 +208,7 @@
         <div class="inp">
             <input type="text" class="input_label" id="rsi">
             <p class="hint">Remember to use RSI14! You can find it with free stock trading services like Webull or <a
-                    href="https://finviz.com/quote.ashx?t=SOXL" target="_blank">Finviz</a>.</p>
+                    href="https://finviz.com/quote.ashx?t=SOXL" target="_blank" style="color: rgb(86, 193, 255); text-shadow: rgb(189, 235, 247) 1px 1px 3px;">Finviz</a>.</p>
         </div>
         <p class="label">SPY Price Change Today:</p>
         <div class="inp">
@@ -213,26 +227,35 @@
             <button id="but_five">I want to minimize as MUCH risk as possible</button>
         </div>
         <div style="margin: auto; text-align: center; margin-top: 10px; margin-bottom: 8px;">
-            <button onclick="run_model()" id="run_button">Get Predictions</button>
+            <button onclick="run_model()" id="run_button" style="display: none;">Get Predictions</button>
         </div>
         <div style="display: block;">
-            <span style="text-align: left; font-size: small;" id="choices">Price Change > RSI > SPY Change > Risk
+            <span style="text-align: left; font-size: small; color: gray;" id="choices">Price Change > RSI > SPY Change > Risk
                 Level</span>
         </div>
         <div>
-            <p style="color: rgb(158, 116, 235); display: none;" id="warn">WARNING: AT LEAST ONE OF YOUR INPUTS IS NOT A
+            <p style="color: rgb(99, 32, 223); display: none; text-shadow: rgba(141, 52, 141, 0.664) 2px 2px 15px;" id="warn">WARNING: AT LEAST ONE OF YOUR INPUTS IS NOT A
                 NUMBER. IF YOU DO NOT INPUT A NUMBER, YOU CANNOT USE THIS MODEL.</p>
         </div>
     </div>
     <div id="hidden" style="display: none;">
         <h1 class="title">Prediction</h1>
         <div class="main">
-            <h2>Verdict</h2>
+            <h2 class="pred_titles">Verdict</h2>
             <p id="claim"></p>
-            <h2>Additional Details</h2>
+            <h2 class="pred_titles">Additional Details</h2>
             <p>Estimated probability of profit: <span id="p_profit"></span></p>
             <p>Estimated probability of loss: <span id="p_loss"></span></p>
         </div>
+    </div>
+    <div id="footer" style="height: 50px;">
+        <p class="disclaimer" style="position: absolute; bottom: 10px; left: 10px; color: rgb(176, 246, 255);">
+            © Mohammed Siam, 2021
+        </p>
+        <p class="disclaimer" style="position: absolute; bottom: -6px; left: 10px; color: rgb(176, 246, 255);">
+            Source Code: <a href="https://github.com/MDSiam8/soxl_stock_prediction" target="blank" style="color: rgb(176, 246, 255);">https://github.com/MDSiam8/soxl_stock_prediction</a>
+        </p>
+    </div>
     </div>
 </body>
 <script>
@@ -255,6 +278,7 @@
 
     pred_but = document.getElementById("run_button")
     sum = 0
+
 
     const inputHandler = function () {
         choices.style.display = ""
@@ -285,42 +309,59 @@
         else {
             risk = "Risk Level " + sum
         }
-        // console.log(sum)
         total = price_change + " > " + rsi_status + " > " + spy_change + " > " + risk
         choices.innerHTML = total;
-        // return total
-
-        // num_check = price_change + rsi_status;
-        // if (sum > 0 && isNaN(num_check) == false && isNaN(spy_change) == false) {
-        //     pred_but.style.display = ""
-        //     document.getElementById("warn").style.display = "none"
-        // }
-        // else {
-        //     pred_but.style.display = "none";
-        // }
-        // if (sum > 0 && isNaN(num_check) === true && isNaN(spy_change) == true) {
-        //     alert("Please correct your inputs.")
-        //     document.getElementById("warn").style.display = ""
-        //     sum = 0
-        // }
-
-        // if sum > 0 AND all are numbers, show predictions button
+        if (sum == 0){
+            pred_but.style.display = "none"; 
+            hidden.style.display = "none"
+        }
     }
+
+
+    function show_or_no(){
+        i = 0
+        if (soxl_pct.value != "" && isNaN(Number(soxl_pct.value)) ==  false){
+            i = i + 1
+        } 
+        if (spy.value != "" && isNaN(Number(spy.value)) == false){
+            i = i + 1
+        }
+        if (rsi.value != "" && isNaN(Number(rsi.value)) == false){
+            i = i + 1
+        }
+        if (i === 3){
+            pred_but.style.display = "";
+        }
+        else{
+            alert("Please correct your inputs.")
+            pred_but.style.display = "none"
+            i = 0;
+            sum = 0
+            // document.getElementById("warn").style.display = ""
+
+        }
+    }
+
 
     any.onclick = function () {
         sum = 1;
+        show_or_no()
     }
     rec.onclick = function () {
         sum = 3;
+        show_or_no()
     }
     much.onclick = function () {
         sum = 5;
+        show_or_no()
     }
     slight.onclick = function () {
         sum = 2
+        show_or_no()
     }
     consid.onclick = function () {
         sum = 4
+        show_or_no()
     }
     soxl_pct.addEventListener("input", inputHandler)
     rsi.addEventListener("input", inputHandler)
@@ -398,7 +439,8 @@
             claim.innerHTML = neutral[Math.floor(Math.random() * 3)]
         }
 
-        
+        // pred_but.style.display = "none"
+        sum = 0
     }
 </script>
 
