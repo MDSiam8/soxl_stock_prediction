@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;500;700;900&display=swap" rel="stylesheet" />
+    <title>SOXL Model</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+</head>
+<style>
+    html {
+        /* background: rgb(2, 0, 36); */
+        background: linear-gradient(145deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 20%, rgba(0, 236, 255, 1) 100%);
+        min-height: 100%;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-family: "Poppins";
+    }
+
+    .main {
+        width: 80%;
+        max-width: 750px;
+        border-radius: 10px;
+        padding: 10px;
+        margin: auto;
+        background-color: white;
+        overflow: hidden;
+    }
+
+    .title {
+        color: rgb(253, 253, 253);
+        text-shadow: slategray 3px 3px 7px;
+        text-align: center;
+        margin-bottom: 1.5vh;
+    }
+
+    #disclaimer {
+        color: rgb(208, 191, 255);
+        margin-top: -2vh;
+        font-size: 1.3vh;
+        text-align: center;
+        text-shadow: rgb(131, 170, 255) 3px 3px 8px;
+    }
+
+    .label {
+        display: inline-flex;
+        color: rgb(153, 153, 153);
+        margin-left: 15px;
+        margin-top: 15px;
+    }
+
+    .hint {
+        display: block;
+        padding-left: 3px;
+        margin-top: 1px;
+        color: rgb(182, 182, 182);
+        font-size: 1.3vh;
+        max-width: 95%;
+    }
+
+    .input_label {
+        width: calc(100% - 30px);
+        outline: none;
+        font-family: "poppins";
+        color: gray;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        background-color: whitesmoke;
+    }
+
+    .input_label:hover {
+        transition: .08s linear;
+        background-color: rgb(236, 236, 236);
+    }
+
+    .input_label:focus {
+        transition: .15s;
+        background-color: rgb(216, 251, 253);
+    }
+
+    .inp {
+        margin: auto;
+        width: 100%;
+        margin-left: 15px;
+        margin-top: -12px;
+    }
+
+    .button_holder {
+        display: inline-flex;
+        margin: 5px;
+        margin-top: -7px;
+    }
+
+    .button_holder>button {
+        margin: 4px;
+        border-radius: 5px;
+        outline: none;
+        border: none;
+        color: rgb(247, 247, 247);
+        font-family: "Poppins";
+    }
+
+    #run_button {
+        background: linear-gradient(90deg, rgba(73, 117, 242, 1) 0%, rgba(0, 236, 255, 1) 100%);
+        font-family: "poppins";
+        outline: none;
+        border: none;
+        border-radius: 15px;
+        color: white;
+        height: 30px;
+        box-shadow: rgba(34, 211, 255, 0.568) 1px 1px 10px;
+        transition: .09 linear;
+        opacity: .85;
+    }
+
+    #run_button:hover {
+        opacity: 1;
+        transition: .09s linear;
+        box-shadow: rgba(34, 211, 255, 0.568) 5px 5px 10px;
+
+    }
+
+    #but_one {
+        background: linear-gradient(90deg, rgba(49, 48, 148, 1) 0%, rgba(0, 73, 255, 1) 100%);
+        opacity: .6;
+    }
+
+    #but_two {
+        background: linear-gradient(90deg, rgba(0, 73, 255, 1) 0%, rgb(28, 149, 255) 100%);
+        opacity: .6;
+    }
+
+    #but_three {
+        background: linear-gradient(90deg, rgba(64, 165, 255, 1) 0%, rgba(72, 216, 255, 1) 100%);
+        opacity: .7;
+    }
+
+    #but_four {
+        background: linear-gradient(90deg, rgba(0, 189, 255, 1) 0%, rgb(103, 225, 255) 100%);
+        opacity: .7;
+    }
+
+    #but_five {
+        background: linear-gradient(90deg, rgb(1, 221, 255) 0%, rgb(1, 255, 255) 100%);
+        opacity: .7;
+    }
+
+    #but_one:hover,
+    #but_two:hover,
+    #but_three:hover,
+    #but_four:hover,
+    #but_five:hover {
+        opacity: 1;
+        transition: linear.3s;
+        color: rgb(255, 255, 255);
+    }
+
+    #but_one:focus,
+    #but_two:focus,
+    #but_three:focus,
+    #but_four:focus,
+    #but_five:focus {
+        opacity: 1;
+        color: rgb(255, 255, 255);
+        box-shadow: rgb(158, 187, 226) 1px 1px 15px;
+    }
+
+    @media(max-width: 610px) {
+
+        #but_two,
+        #but_four {
+            display: none;
+        }
+    }
+</style>
+
+<body>
+    <h1 class="title">SOXL Stock Prediction</h1>
+    <p id="disclaimer">Disclaimer: None of the contents of this site are investment advice. Any risk you take is solely
+        on your own accord. I am not liable for your decisions. And remember, machine learning is not magic; it is not
+        always right!</p>
+
+    <div class="main">
+        <p class="label" style="margin-top: 10px;">SOXL Price Change Today: </p>
+        <div class="inp">
+            <input type="text" class="input_label" id="soxl_pct">
+            <p class="hint">Please enter it in percent format (without percentage sign), e.g. write 5.02 if it went up
+                5.02% today.</p>
+        </div>
+        <p class="label">SOXL RSI:</p>
+        <div class="inp">
+            <input type="text" class="input_label" id="rsi">
+            <p class="hint">Remember to use RSI14! You can find it with free stock trading services like Webull or <a
+                    href="https://finviz.com/quote.ashx?t=SOXL" target="_blank">Finviz</a>.</p>
+        </div>
+        <p class="label">SPY Price Change Today:</p>
+        <div class="inp">
+            <input type="text" class="input_label" id="spy">
+            <p class="hint">Make sure to enter it in percent format without the % sign, e.g. if it went down 0.38%, type
+                -0.38</p>
+        </div>
+        <p class="label">How comfortable are you with the potential of an incorrect analysis?</p>
+        <p style="font-size: small; margin-top: -10px; margin-left: 15px; color: rgb(194, 194, 194);">Note: this does
+            not guarantee success</p>
+        <div class="button_holder">
+            <button id="but_one">Give me ANYTHING</button>
+            <button id="but_two">Take SLIGHT caution</button>
+            <button id="but_three">Please give me what you RECOMMEND</button>
+            <button id="but_four">Proceed with CONSIDERABLE caution</button>
+            <button id="but_five">I want to minimize as MUCH risk as possible</button>
+        </div>
+        <div style="margin: auto; text-align: center; margin-top: 10px; margin-bottom: 8px;">
+            <button onclick="run_model()" id="run_button">Get Predictions</button>
+        </div>
+        <div style="display: block;">
+            <span style="text-align: left; font-size: small;" id="choices">Price Change > RSI > SPY Change > Risk
+                Level</span>
+        </div>
+        <div>
+            <p style="color: rgb(158, 116, 235); display: none;" id="warn">WARNING: AT LEAST ONE OF YOUR INPUTS IS NOT A
+                NUMBER. IF YOU DO NOT INPUT A NUMBER, YOU CANNOT USE THIS MODEL.</p>
+        </div>
+    </div>
+    <div id="hidden" style="display: none;">
+        <h1 class="title">Prediction</h1>
+        <div class="main">
+            <h2>Verdict</h2>
+            <p id="claim"></p>
+            <h2>Additional Details</h2>
+            <p>Estimated probability of profit: <span id="p_profit"></span></p>
+            <p>Estimated probability of loss: <span id="p_loss"></span></p>
+        </div>
+    </div>
+</body>
+<script>
+    soxl_pct = document.getElementById("soxl_pct")
+    console.log(soxl_pct)
+    rsi = document.getElementById("rsi")
+    spy = document.getElementById("spy")
+    choices = document.getElementById("choices")
+    if (soxl_pct.value === undefined) {
+        choices.style.display = "none"
+    }
+    any = document.getElementById("but_one")
+    rec = document.getElementById("but_three");
+    much = document.getElementById("but_five");
+    slight = document.getElementById("but_two")
+    consid = document.getElementById("but_four")
+
+    claim = document.getElementById("claim")
+    hidden = document.getElementById("hidden")
+
+    pred_but = document.getElementById("run_button")
+    sum = 0
+
+    const inputHandler = function () {
+        choices.style.display = ""
+        if (soxl_pct.value === "") {
+            price_change = "Price Change"
+        }
+        else {
+            price_change = soxl_pct.value;
+        }
+        if (rsi.value === "") {
+            rsi_status = "RSI"
+        }
+        else {
+            rsi_status = rsi.value
+        }
+        if (spy.value === "") {
+            spy_change = "SPY Change"
+        }
+        else {
+            spy_change = spy.value;
+        }
+        console.log(rsi_status)
+
+        if (sum === 0) {
+            risk = "Risk Level";
+            document.getElementById("warn").style.display = "none"
+        }
+        else {
+            risk = "Risk Level " + sum
+        }
+        // console.log(sum)
+        total = price_change + " > " + rsi_status + " > " + spy_change + " > " + risk
+        choices.innerHTML = total;
+        // return total
+
+        // num_check = price_change + rsi_status;
+        // if (sum > 0 && isNaN(num_check) == false && isNaN(spy_change) == false) {
+        //     pred_but.style.display = ""
+        //     document.getElementById("warn").style.display = "none"
+        // }
+        // else {
+        //     pred_but.style.display = "none";
+        // }
+        // if (sum > 0 && isNaN(num_check) === true && isNaN(spy_change) == true) {
+        //     alert("Please correct your inputs.")
+        //     document.getElementById("warn").style.display = ""
+        //     sum = 0
+        // }
+
+        // if sum > 0 AND all are numbers, show predictions button
+    }
+
+    any.onclick = function () {
+        sum = 1;
+    }
+    rec.onclick = function () {
+        sum = 3;
+    }
+    much.onclick = function () {
+        sum = 5;
+    }
+    slight.onclick = function () {
+        sum = 2
+    }
+    consid.onclick = function () {
+        sum = 4
+    }
+    soxl_pct.addEventListener("input", inputHandler)
+    rsi.addEventListener("input", inputHandler)
+    spy.addEventListener("input", inputHandler)
+    any.addEventListener("click", inputHandler)
+    much.addEventListener("click", inputHandler)
+    rec.addEventListener("click", inputHandler)
+    consid.addEventListener("click", inputHandler)
+    slight.addEventListener("click", inputHandler)
+    // =====================================
+    async function run_model() {
+        const model = await tf.loadLayersModel("https://raw.githubusercontent.com/MDSiam8/soxl_stock_prediction/main/soxl-model-reduced.json");
+        // var profit = tf.tensor2d([.0117, -.0014, .5467], [1, 3])
+        // var loss = tf.tensor2d([.0419, .0007, .5458], [1, 3])
+        var check;
+        // check = profit
+        check = tf.tensor2d([soxl_pct.value / 100, spy.value / 100, rsi.value / 100], [1, 3])
+        const pred = model.predict(check);
+        const pIndex = tf.argMax(pred, axis = 1).dataSync();
+        const classNames = ["Profit", "Loss"];
+        // pred_div.style.display = "";
+        // pred_text.innerHTML = classNames[pIndex];
+        // alert(classNames[pIndex]);
+        console.log(classNames[pIndex]);
+        alert(pred)
+        const results = tf.argMax(pred, axis = 1).dataSync()
+        // console.log(pred.dataSync())
+        probability_profit = pred.dataSync()[0]
+        prob_loss = pred.dataSync()[1]
+        console.log("Profit " + probability_profit + ", Loss: " + prob_loss)
+        hidden.style.display = ""
+
+        abs_dif = Math.abs(probability_profit - prob_loss);
+
+        // essentially is a judging factor based on how close they are
+        // cuz close calls are hard to predict cuz they can very easily swing one way or the other
+        // for example, the give me ANYYYYTHING option has a value of 0, meaning even if the predictions have a difference of 0,
+        // the model's prediction won't explain the nuances, i.e. go flip a coin
+
+        // compared to the minimize as MUCH risk as posible choice, which wants a larger gap between the predictions because it would be more likelier to not have been a mistake on the neural network's part
+        if (sum === 1) {
+            threshold = 0
+        }
+
+        if (sum === 2) {
+            threshold = .07
+        }
+
+        if (sum === 3) {
+            threshold = .1
+        }
+
+        if (sum === 4) {
+            threshold = .125
+        }
+
+        if (sum === 5) {
+            threshold = .15
+        }
+
+        document.getElementById("p_profit").innerHTML = probability_profit;
+        document.getElementById("p_loss").innerHTML = prob_loss;
+        
+
+        if (abs_dif >= threshold) {
+            if (probability_profit > prob_loss) {
+                claim.innerHTML = "The next trading day is likely to be profitable."
+            }
+            else {
+                claim.innerHTML = "The next trading day is likely to result in a loss."
+            }
+        }
+        else{
+            neutral = ["You're probably better off flipping a coin for this one.", "Your guess is as good as mine!", "Flip a coin, LOL. (Don't make a trading decision off of that, though.)"]
+            claim.innerHTML = neutral[Math.floor(Math.random() * 3)]
+        }
+
+        
+    }
+</script>
+
+</html>
