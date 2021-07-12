@@ -175,87 +175,127 @@
             display: none;
         }
     }
-    #hidden{
+
+    #hidden {
         color: rgb(153, 153, 153);
         /* margin-left: 15px; */
     }
-    #hidden > .main > p {
+
+    #hidden>.main>p {
         color: rgb(182, 182, 182);
         margin-left: 15px;
     }
-    .pred_titles{
+
+    .pred_titles {
         margin-top: 5px;
         margin-left: 15px;
         font-weight: 400;
+    }
+
+    #auto {
+        text-align: center;
+        margin-bottom: 10px;
+        background: linear-gradient(90deg, rgb(124, 68, 255) 0%, rgba(0, 236, 255, 1) 100%);
+        font-family: "poppins";
+        outline: none;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        min-height: 30px;
+        box-shadow: rgba(34, 211, 255, 0.568) 1px 1px 10px;
+        transition: .09 linear;
+        opacity: .85;
+    }
+
+    #auto:hover {
+        opacity: 1;
+        transition: .4s;
+    }
+
+    #auto_holder {
+        margin: auto;
+        text-align: center;
     }
 </style>
 
 <body>
     <div style="position: relative; min-height: calc(100vh - 50px);">
-    <h1 class="title">SOXL Stock Prediction</h1>
-    <p class="disclaimer">Disclaimer: None of the contents of this site are investment advice. Any risk you take is solely
-        on your own accord. I am not liable for your decisions. And remember, machine learning is not magic; it is not
-        always right!</p>
-
-    <div class="main">
-        <p class="label" style="margin-top: 10px;">SOXL Price Change Today: </p>
-        <div class="inp">
-            <input type="text" class="input_label" id="soxl_pct">
-            <p class="hint">Please enter it in percent format (without percentage sign), e.g. write 5.02 if it went up
-                5.02% today.</p>
+        <h1 class="title">SOXL Stock Prediction</h1>
+        <p class="disclaimer">Disclaimer: None of the contents of this site are investment advice. Any risk you take is
+            solely
+            on your own accord. I am not liable for your decisions. And remember, machine learning is not magic; it is
+            not
+            always right!</p>
+        <div id="auto_holder">
+            <button id="auto">Automatically Fill Data</button>
         </div>
-        <p class="label">SOXL RSI:</p>
-        <div class="inp">
-            <input type="text" class="input_label" id="rsi">
-            <p class="hint">Remember to use RSI14! You can find it with free stock trading services like Webull or <a
-                    href="https://finviz.com/quote.ashx?t=SOXL" target="_blank" style="color: rgb(86, 193, 255); text-shadow: rgb(189, 235, 247) 1px 1px 3px;">Finviz</a>.</p>
-        </div>
-        <p class="label">SPY Price Change Today:</p>
-        <div class="inp">
-            <input type="text" class="input_label" id="spy">
-            <p class="hint">Make sure to enter it in percent format without the % sign, e.g. if it went down 0.38%, type
-                -0.38</p>
-        </div>
-        <p class="label">How comfortable are you with the potential of an incorrect analysis?</p>
-        <p style="font-size: small; margin-top: -10px; margin-left: 15px; color: rgb(194, 194, 194);">Note: this does
-            not guarantee success</p>
-        <div class="button_holder">
-            <button id="but_one">Give me ANYTHING</button>
-            <button id="but_two">Take SLIGHT caution</button>
-            <button id="but_three">Please give me what you RECOMMEND</button>
-            <button id="but_four">Proceed with CONSIDERABLE caution</button>
-            <button id="but_five">I want to minimize as MUCH risk as possible</button>
-        </div>
-        <div style="margin: auto; text-align: center; margin-top: 10px; margin-bottom: 8px;">
-            <button onclick="run_model()" id="run_button" style="display: none;">Get Predictions</button>
-        </div>
-        <div style="display: block;">
-            <span style="text-align: left; font-size: small; color: gray;" id="choices">Price Change > RSI > SPY Change > Risk
-                Level</span>
-        </div>
-        <div>
-            <p style="color: rgb(99, 32, 223); display: none; text-shadow: rgba(141, 52, 141, 0.664) 2px 2px 15px;" id="warn">WARNING: AT LEAST ONE OF YOUR INPUTS IS NOT A
-                NUMBER. IF YOU DO NOT INPUT A NUMBER, YOU CANNOT USE THIS MODEL.</p>
-        </div>
-    </div>
-    <div id="hidden" style="display: none;">
-        <h1 class="title">Prediction</h1>
         <div class="main">
-            <h2 class="pred_titles">Verdict</h2>
-            <p id="claim"></p>
-            <h2 class="pred_titles">Additional Details</h2>
-            <p>Estimated probability of profit: <span id="p_profit"></span></p>
-            <p>Estimated probability of loss: <span id="p_loss"></span></p>
+            <p class="label" style="margin-top: 10px;">SOXL Price Change Today: </p>
+            <div class="inp">
+                <input type="text" class="input_label" id="soxl_pct">
+                <p class="hint">Please enter it in percent format (without percentage sign), e.g. write 5.02 if it went
+                    up
+                    5.02% today.</p>
+            </div>
+            <p class="label">SOXL RSI:</p>
+            <div class="inp">
+                <input type="text" class="input_label" id="rsi">
+                <p class="hint">Remember to use RSI14! You can find it with free stock trading services like Webull or
+                    <a href="https://finviz.com/quote.ashx?t=SOXL" target="_blank"
+                        style="color: rgb(86, 193, 255); text-shadow: rgb(189, 235, 247) 1px 1px 3px;">Finviz</a>.
+                </p>
+            </div>
+            <p class="label">SPY Price Change Today:</p>
+            <div class="inp">
+                <input type="text" class="input_label" id="spy">
+                <p class="hint">Make sure to enter it in percent format without the % sign, e.g. if it went down 0.38%,
+                    type
+                    -0.38</p>
+            </div>
+            <p class="label">How comfortable are you with the potential of an incorrect analysis?</p>
+            <p style="font-size: small; margin-top: -10px; margin-left: 15px; color: rgb(194, 194, 194);">Note: this
+                does
+                not guarantee success</p>
+            <div class="button_holder">
+                <button id="but_one">Give me ANYTHING</button>
+                <button id="but_two">Take SLIGHT caution</button>
+                <button id="but_three">Please give me what you RECOMMEND</button>
+                <button id="but_four">Proceed with CONSIDERABLE caution</button>
+                <button id="but_five">I want to minimize as MUCH risk as possible</button>
+            </div>
+            <div style="margin: auto; text-align: center; margin-top: 10px; margin-bottom: 8px;">
+                <button onclick="run_model()" id="run_button" style="display: none;">Get Predictions</button>
+            </div>
+            <div style="display: block;">
+                <span style="text-align: left; font-size: small; color: gray;" id="choices">Price Change > RSI > SPY
+                    Change > Risk
+                    Level</span>
+            </div>
+            <div>
+                <p style="color: rgb(99, 32, 223); display: none; text-shadow: rgba(141, 52, 141, 0.664) 2px 2px 15px;"
+                    id="warn">WARNING: AT LEAST ONE OF YOUR INPUTS IS NOT A
+                    NUMBER. IF YOU DO NOT INPUT A NUMBER, YOU CANNOT USE THIS MODEL.</p>
+            </div>
         </div>
-    </div>
-    <div id="footer" style="height: 50px;">
-        <p class="disclaimer" style="position: absolute; bottom: 10px; left: 10px; color: rgb(176, 246, 255);">
-            © Mohammed Siam, 2021
-        </p>
-        <p class="disclaimer" style="position: absolute; bottom: -6px; left: 10px; color: rgb(176, 246, 255);">
-            Source Code: <a href="https://github.com/MDSiam8/soxl_stock_prediction" target="blank" style="color: rgb(176, 246, 255);">https://github.com/MDSiam8/soxl_stock_prediction</a>
-        </p>
-    </div>
+        <div id="hidden" style="display: none;">
+            <h1 class="title">Prediction</h1>
+            <div class="main">
+                <h2 class="pred_titles">Verdict</h2>
+                <p id="claim"></p>
+                <h2 class="pred_titles">Additional Details</h2>
+                <p>Estimated probability of profit: <span id="p_profit"></span></p>
+                <p>Estimated probability of loss: <span id="p_loss"></span></p>
+            </div>
+        </div>
+        <div id="footer" style="height: 50px;">
+            <p class="disclaimer" style="position: absolute; bottom: 10px; left: 10px; color: rgb(176, 246, 255);">
+                © Mohammed Siam, 2021
+            </p>
+            <p class="disclaimer" style="position: absolute; bottom: -6px; left: 10px; color: rgb(176, 246, 255);">
+                Source Code: <a href="https://github.com/MDSiam8/soxl_stock_prediction" target="blank"
+                    style="color: rgb(176, 246, 255);">https://github.com/MDSiam8/soxl_stock_prediction</a>
+            </p>
+        </div>
     </div>
 </body>
 <script>
@@ -311,28 +351,28 @@
         }
         total = price_change + " > " + rsi_status + " > " + spy_change + " > " + risk
         choices.innerHTML = total;
-        if (sum == 0){
-            pred_but.style.display = "none"; 
+        if (sum == 0) {
+            pred_but.style.display = "none";
             hidden.style.display = "none"
         }
     }
 
 
-    function show_or_no(){
+    function show_or_no() {
         i = 0
-        if (soxl_pct.value != "" && isNaN(Number(soxl_pct.value)) ==  false){
-            i = i + 1
-        } 
-        if (spy.value != "" && isNaN(Number(spy.value)) == false){
+        if (soxl_pct.value != "" && isNaN(Number(soxl_pct.value)) == false) {
             i = i + 1
         }
-        if (rsi.value != "" && isNaN(Number(rsi.value)) == false){
+        if (spy.value != "" && isNaN(Number(spy.value)) == false) {
             i = i + 1
         }
-        if (i === 3){
+        if (rsi.value != "" && isNaN(Number(rsi.value)) == false) {
+            i = i + 1
+        }
+        if (i === 3) {
             pred_but.style.display = "";
         }
-        else{
+        else {
             alert("Please correct your inputs.")
             pred_but.style.display = "none"
             i = 0;
@@ -424,7 +464,7 @@
 
         document.getElementById("p_profit").innerHTML = probability_profit;
         document.getElementById("p_loss").innerHTML = prob_loss;
-        
+
 
         if (abs_dif >= threshold) {
             if (probability_profit > prob_loss) {
@@ -434,7 +474,7 @@
                 claim.innerHTML = "The next trading day is likely to result in a loss."
             }
         }
-        else{
+        else {
             neutral = ["You're probably better off flipping a coin for this one.", "Your guess is as good as mine!", "Flip a coin, LOL. (Don't make a trading decision off of that, though.)"]
             claim.innerHTML = neutral[Math.floor(Math.random() * 3)]
         }
@@ -442,6 +482,49 @@
         // pred_but.style.display = "none"
         sum = 0
     }
+
+    //==================PULL DATA CODE======================
+    //special thanks to user Mogsdad on StackOverflow, whose code I modified for this purpose 
+
+    window.onload = function(){
+        loadData("A2:C2")
+    }
+
+    function loadData(cell) {
+        var url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS7xVj_yM06PAg7LhjbEREtk47c24mCRGUW8etZSB4X9iyuSObdPuea0gT6cW3iGqu1PNTDCoOPn-Xq/pub?gid=0&single=true&output=csv&range=" + cell;
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4) {
+                result = xmlhttp.responseText
+                console.log(result)
+                imported_data = result
+                return imported_data
+                // document.getElementById(input_id).value = result
+                // imported_data.push(result)
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send(null);
+    }
+
+    auto = document.getElementById("auto")
+    auto.onclick = function () {
+        auto_press()
+    }
+  
+    function auto_press() {
+            loadData("A2:C2");
+            arrayVal = imported_data.split(",")
+            console.log(arrayVal[1])
+            soxl_pct.value = arrayVal[0];
+            if (arrayVal[1] == "Loading..." || arrayVal[1] == "#NAME?") {
+                rsi.value = "Unable to retrieve data. Please enter it manually."
+            }
+            else {
+                rsi.value = arrayVal[1];
+            }
+            spy.value = arrayVal[2]
+        }
 </script>
 
 </html>
