@@ -1,6 +1,7 @@
 # soxl_stock_prediction
 I have created a machine learning model for one of my favorite stocks (or rather, ETFs): SOXL. This takes various different things as input, such as the percent gain of the ETF and its RSI (Relative Strength Indicator), to provide a prediction of what tomorrow's trading day will look like. This is the first ever "real world" model I have made.
 The link to the site may be accessed here: https://mdsiam8.github.io/soxl_stock_prediction/.
+
 Future plans are to:
 - use more inputs for the model, in anticipation of more accuracy
 - expand library of stocks that I cover
@@ -32,6 +33,7 @@ TL;DR: I used Google Sheets and Yahoo Finance to form my training data, consisti
 - a column consisting of the categorical indicators of "profit" and "loss" which describe the next trading day's performance of any given date. This column was used as the labels in the ML model.
 - two columns of the percent change on the given date for SOXL ETF and the SPY ETF
 - a column for the RSI for SOXL
+
 I then trained it using tensorflow.js.
 
 # Field testing
