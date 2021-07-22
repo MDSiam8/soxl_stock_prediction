@@ -31,7 +31,7 @@ After collecting all the necessary data, it was time to export it. I exported it
 TL;DR: I used Google Sheets and Yahoo Finance to form my training data, consisting of:
 - a column consisting of the categorical indicators of "profit" and "loss" which described the next trading day's performance of any given date. This column was used as the labels in the ML model.
 - two columns of the percent change on the given date for SOXL ETF and the SPY ETF
-- the RSI for SOXL
+- a column for the RSI for SOXL
 
 I then trained it using tensorflow.js.
 
