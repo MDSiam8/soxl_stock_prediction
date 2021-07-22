@@ -9,7 +9,7 @@ Future plans are to:
 - create a webpage that allows a user to train their own ML model on their given stock, given that they have their own data
 
 # How is this "different"?
-Unlike most Machine Learning attempts at the stock market, this one uses categorical data. So, rather than giving a prediction for how much a given stock may go up the following day, this instead gives you a prediction of whether or not the next day will be profitable. 
+Unlike most Machine Learning attempts at the stock market, this one uses categorical data and outputs a categorical prediction. So, rather than giving a prediction for how much a given stock may go up the following day, this instead gives you a prediction of whether or not the next day will be profitable. Also, this is an ETF, so it's price performance isn't dependent on just one company's stock performance, but rather multiple across the same sector. Lastly, it's data is used in coordination with the percent change of the SPY ETF, to anticipate any potentially large moves based on the general condition of the market, because the performance of both of these ETFs are related from my experience with them. 
 
 # How was this made?
 TL;DR at the bottom.
