@@ -28,5 +28,12 @@ Up next is the data for SPY. In a new spreadsheet, I obtained SPY data and used 
 
 After collecting all the necessary data, it was time to export it. I exported it as a CSV, and imported it into my training file. I designed a multilayer neural network to train it, using tensorflow.js and used regularization techniques to reduce the risk of overfitting. Previously, I ran into severe overfitting issues, so it was a very important task to make sure not to overfit it. After about 60,000 epochs, the model had been created and it was time to make the complementing webpage. With a few HTML, CSS, and Javscript, the webpage had been completed and the site was ready to publish.
 
+TL;DR: I used Google Sheets and Yahoo Finance to form my training data, consisting of:
+- a column consisting of the categorical indicators of "profit" and "loss" which described the next trading day's performance of any given date. This column was used as the labels in the ML model.
+- two columns of the percent change on the given date for SOXL ETF and the SPY ETF
+- the RSI for SOXL
+
+I then trained it using tensorflow.js.
+
 # Field testing
 I am currently in the process of testing it, running the model under each day's conditions and updating my observations of the model's efficacy. Once I have a considerable amount of data ready, I will publish it in this section.
