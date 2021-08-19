@@ -437,7 +437,7 @@
         // pred_text.innerHTML = classNames[pIndex];
         // alert(classNames[pIndex]);
         console.log(classNames[pIndex]);
-        alert(pred)
+        // alert(pred)
         const results = tf.argMax(pred, axis = 1).dataSync()
         // console.log(pred.dataSync())
         probability_profit = pred.dataSync()[0]
@@ -448,8 +448,8 @@
         abs_dif = Math.abs(probability_profit - prob_loss);
 
         // essentially is a judging factor based on how close they are
-        // cuz close calls are hard to predict cuz they can very easily swing one way or the other
-        // for example, the give me ANYYYYTHING option has a value of 0, meaning even if the predictions have a difference of 0,
+        // needed since close calls are hard to predict b/c they can very easily swing one way or the other
+        // for example, the "give me ANYYYYTHING" option has a value of 0, meaning even if the predictions have a difference of 0,
         // the model's prediction won't explain the nuances, i.e. go flip a coin
 
         // compared to the minimize as MUCH risk as posible choice, which wants a larger gap between the predictions because it would be more likelier to not have been a mistake on the neural network's part
