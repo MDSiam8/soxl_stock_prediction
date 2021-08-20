@@ -60,7 +60,7 @@
         margin-top: 1px;
         color: rgb(182, 182, 182);
         font-size: 1.3vh;
-        max-width: 95%;
+        max-width: 91%;
     }
 
     .input_label {
@@ -219,12 +219,21 @@
         margin: auto;
         text-align: center;
     }
-    @media (max-height: 850px){
-        .disclaimer{
+
+    @media (max-height: 850px) {
+        .disclaimer {
             font-size: 11px;
         }
-        .hint{
+
+        .hint {
             font-size: 11.5px;
+        }
+
+    }
+
+    @media (max-width:400px) {
+        #footer>.disclaimer {
+            font-size: 1.0vh;
         }
     }
 </style>
@@ -232,11 +241,9 @@
 <body>
     <div style="position: relative; min-height: calc(100vh - 50px);">
         <h1 class="title">SOXL Trend Prediction</h1>
-        <p class="disclaimer">Disclaimer: None of the contents of this site are investment advice. Any risk you take is
-            solely
-            on your own accord. I am not liable for your decisions. Proceed with caution when market conditions are unstable. And remember, machine learning is not magic; it is
-            not
-            always right!</p>
+        <p class="disclaimer">Disclaimer: None of the contents of this site are investment advice. Any risk you take is solely
+            on your own accord. I am not liable for your decisions. Proceed with caution when market conditions are
+            unstable. And remember, machine learning is not magic; it is not always right!</p>
         <div id="auto_holder">
             <button id="auto">Automatically Fill Data</button>
         </div>
@@ -302,7 +309,8 @@
             <p class="disclaimer" style="position: absolute; bottom: 10px; left: 10px; color: rgb(176, 246, 255);">
                 © Mohammed Siam, 2021
             </p>
-            <p class="disclaimer" style="position: absolute; bottom: -6px; left: 10px; color: rgb(176, 246, 255);">
+            <p class="disclaimer" id="sourceCodeLink"
+                style="position: absolute; bottom: -6px; left: 10px; color: rgb(176, 246, 255);">
                 Source Code: <a href="https://github.com/MDSiam8/soxl_stock_prediction" target="blank"
                     style="color: rgb(176, 246, 255);">https://github.com/MDSiam8/soxl_stock_prediction</a>
             </p>
@@ -383,7 +391,7 @@
         if (i === 3) {
             pred_but.style.display = "";
         }
-        else{
+        else {
             alert("Please provide valid inputs.")
             pred_but.style.display = "none"
             i = 0;
@@ -437,7 +445,7 @@
         // pred_text.innerHTML = classNames[pIndex];
         // alert(classNames[pIndex]);
         console.log(classNames[pIndex]);
-        // alert(pred)
+        alert(pred)
         const results = tf.argMax(pred, axis = 1).dataSync()
         // console.log(pred.dataSync())
         probability_profit = pred.dataSync()[0]
@@ -497,7 +505,7 @@
     //==================PULL DATA CODE======================
     //special thanks to user Mogsdad on StackOverflow, whose code I modified for this purpose 
 
-    window.onload = function(){
+    window.onload = function () {
         loadData("A2:C2")
     }
 
@@ -522,20 +530,20 @@
     auto.onclick = function () {
         auto_press()
     }
-  
+
     function auto_press() {
-            loadData("A2:C2");
-            arrayVal = imported_data.split(",")
-            console.log(arrayVal[1])
-            soxl_pct.value = arrayVal[0];
-            if (arrayVal[1] == "Loading..." || arrayVal[1] == "#NAME?") {
-                rsi.value = "Unable to retrieve data. Please enter it manually."
-            }
-            else {
-                rsi.value = arrayVal[1];
-            }
-            spy.value = arrayVal[2]
+        loadData("A2:C2");
+        arrayVal = imported_data.split(",")
+        console.log(arrayVal[1])
+        soxl_pct.value = arrayVal[0];
+        if (arrayVal[1] == "Loading..." || arrayVal[1] == "#NAME?") {
+            rsi.value = "Unable to retrieve data. Please enter it manually."
         }
+        else {
+            rsi.value = arrayVal[1];
+        }
+        spy.value = arrayVal[2]
+    }
 </script>
 
 </html>
